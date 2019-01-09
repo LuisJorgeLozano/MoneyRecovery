@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <title>Administración</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script defer src="https://cdn.rawgit.com/eligrey/FileSaver.js/5ed507ef8aa53d8ecfea96d96bc7214cd2476fd2/FileSaver.min.js"></script>
+    <script defer src="https://use.fontawesome.com/releases/v5.3.1/js/all.js"></script>
+    <script defer src="./js/axios.min.js"></script>
+    <script defer src="./js/jspdf/jspdf.js"></script>
+    <script defer src="./js/js-admin.js"></script>
+    <script defer src="./js/js-reports.js"></script>
+    <link rel="stylesheet" href="./css/styles.css">
+    <link rel="stylesheet" href="./css/custom-styles-administration.css">
+</head>
+
+<body>
+    <section class="hero">
+        <nav class="navbar is-transparent has-background-white has-shadow">
+            <div class="navbar-brand">
+                <a class="navbar-item is-hidden-touch" href="">
+					<p class="title is-4 has-text-weight-light has-text-primary title-administration-desktop">Money Recovery</p>
+				</a>
+                <a class="navbar-item is-hidden-desktop" href="">
+					<p class="title is-4 has-text-weight-light has-text-primary is-hidden-desktop">Money Recovery</p>
+				</a>
+                <div class="navbar-burger burger" data-target="navbarExampleTransparentExample">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+            </div>
+            <div id="navbarExampleTransparentExample" class="navbar-menu">
+                <div class="navbar-end">
+                    <div class="navbar-item has-dropdown is-hoverable">
+                        <a class="navbar-link">
+							<p>Administrador: <span id="employe-id">000003</span></p>
+						</a>
+                        <div class="navbar-dropdown is-right">
+                            <a class="navbar-item">
+								<span>
+									<span class="icon has-text-success">
+										<i class="far fa-user"></i>
+									</span>
+									<strong>Usuarios activos</strong>
+									<br>
+									Usuarios activos: <span id="active-users">0</span>
+								</span>
+							</a>
+                            <a id="generate-report" class="navbar-item ">
+								<span>
+									<span class="icon has-text-info">
+										<i class="far fa-file-alt"></i>
+									</span>
+									<strong>Generar Reporte Mensual</strong>
+									<br>
+									Reporte de acuerdos generados en este mes
+								</span>
+							</a>
+                            <a id="close-session" class="navbar-item">
+								<span>
+									<span class="icon has-text-danger">
+										<i class="fas fa-times"></i>
+									</span>
+									<strong>Cerrar Sesión</strong>
+									<br>
+									No olvides apagar el equipo de cómputo
+								</span>
+							</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </nav>
+        <section class="section is-paddingless container-interaction-administration">
+            <div class="grid-interaction-administration">
+                <div class="menu-left-administration has-background-white is-hidden-touch">
+                    <a href="">
+						<span class="icon is-large has-text-primary">
+							<i class="fas fa-2x fa-th-large"></i>
+						</span>
+					</a>
+                </div>
+                <div class="grid-information-administration">
+                    <div class="information-administration-title">
+                        <p class="title is-4 has-text-weight-light has-text-black ">Administración</p>
+                    </div>
+                    <div class="information-administration-clients">
+                        <div class="grid-information-administration-employees">
+                            <div class="grid-employees-details has-background-white">
+                                <div class="employees-details-title">
+                                    <p class="title is-5 has-text-weight-light has-text-grey">Registrar Empleado</p>
+                                </div>
+                                <div class="employees-details-form columns is-multiline">
+                                    <div class="column is-3">
+                                        <div class="field has-addons is-marginless">
+                                            <p class="control is-expanded has-icons-left">
+                                                <input id="form-input-email" class="input custom-input has-text-grey options-search-input is-shadowless" type="text" placeholder="Correo Electrónico">
+                                                <span id="options-search-icon" class="icon is-small is-left icon-search options-search-icon has-text-grey-light">
+													<i class="fas fa-at"></i>
+												</span>
+                                            </p>
+                                        </div>
+                                        <p id="form-input-email-help" class="help is-danger is-hidden"></p>
+                                    </div>
+                                    <div class="column is-3">
+                                        <div class="field has-addons is-marginless">
+                                            <p class="control is-expanded has-icons-left">
+                                                <input id="form-input-user" class="input custom-input has-text-grey options-search-input is-shadowless" type="text" placeholder="Nombre de Usuario">
+                                                <span id="options-search-icon" class="icon is-small is-left icon-search options-search-icon has-text-grey-light">
+													<i class="far fa-user"></i>
+												</span>
+                                            </p>
+                                        </div>
+                                        <p id="form-input-user-help" class="help is-danger is-hidden"></p>
+                                    </div>
+                                    <div class="column is-3">
+                                        <div class="field has-addons is-marginless">
+                                            <p class="control is-expanded has-icons-left">
+                                                <input id="form-input-password" class="input custom-input has-text-grey options-search-input is-shadowless" type="password" placeholder="Contraseña">
+                                                <span id="options-search-icon" class="icon is-small is-left icon-search options-search-icon has-text-grey-light">
+													<i class="fas fa-key"></i>
+												</span>
+                                            </p>
+                                        </div>
+                                        <p id="form-input-password-help" class="help is-danger is-hidden"></p>
+                                    </div>
+                                    <div class="column is-3">
+                                        <div class="field has-addons is-marginless">
+                                            <p class="control is-expanded has-icons-left">
+                                                <input id="form-input-password-verify" class="input custom-input has-text-grey options-search-input is-shadowless" type="password" placeholder="Confirmar Contraseña">
+                                                <span id="options-search-icon" class="icon is-small is-left icon-search options-search-icon has-text-grey-light">
+													<i class="fas fa-key"></i>
+												</span>
+                                            </p>
+                                        </div>
+                                        <p id="form-input-password-verify-help" class="help is-danger is-hidden"></p>
+                                    </div>
+                                    <div class="column is-12">
+                                        <div class="field is-grouped is-grouped-right">
+                                            <div class="control" id="register-user">
+                                                <button class="button is-link">Registrar</button>
+                                            </div>
+                                            <div class="control" id="cancel-update-user">
+                                                <button class="button is-text">Cancelar</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="grid-table-employees has-background-white">
+                                <div class="table-employees-title">
+                                    <p class="title is-5 has-text-weight-light has-text-grey">Listado de Empleados</p>
+                                </div>
+                                <div id="table-employees-content" class="table-employees-content has-background-warnin">
+                                    <table class="table is-fullwidth">
+                                        <thead>
+                                            <tr>
+                                                <th></th>
+                                                <th class="has-text-weight-light has-text-grey">No. de Empleado</th>
+                                                <th class="has-text-weight-light has-text-grey">Nombre del Empleado</th>
+                                                <th class="has-text-weight-light has-text-grey has-text-centered">Reporte</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="tbodyEmployees">
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="information-system-administration has-text-centered">
+                        <p>Universidad Autónoma de Querétaro 2018 - <a href="https://www.uaq.mx/informatica/" target="_blank">Facultad de Informática</a></p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </section>
+</body>
+
+</html>

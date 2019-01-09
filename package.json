@@ -1,0 +1,18 @@
+{
+  "name": "moneyrecovery",
+  "version": "1.0.0",
+  "description": "",
+  "main": "./sass/mystyles.scss",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "css-build": "node-sass --omit-source-map-url ./sass/styles.scss ./css/styles.css",
+    "css-watch": "npm run css-build -- --watch",
+    "start": "npm run css-watch"
+  },
+  "author": "Mauricio IC, Luis Jorge LD, Luis Ernesto BL",
+  "license": "ISC",
+  "devDependencies": {
+    "bulma": "^0.7.2",
+    "node-sass": "^4.10.0"
+  }
+}

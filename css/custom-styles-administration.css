@@ -1,0 +1,207 @@
+/*------ General Classes ------*/
+
+html, body{
+	height: 100%;
+}
+
+input::-webkit-caps-lock-indicator {
+	opacity: 0;
+}
+
+tr{
+	cursor: pointer;
+}
+
+tr, td {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    /*max-width: 0;*/
+}
+
+/*------ Elements ------*/
+
+/*-- Button --*/
+
+.custom-button{
+	border-radius: 20px;
+	padding: 1rem;
+}
+
+/*-- Card --*/
+
+.card, .card-header{
+	box-shadow: none !important;
+}
+
+.card-header-title{
+	width: auto !important;
+	flex-grow: initial !important;
+	padding: 0.75rem 1rem !important;
+	color: #769AF8 !important;
+}
+
+.card-header-icon:hover{
+	color: #769AF8 !important;
+}
+
+.card-content{
+	padding: 0rem 1rem !important;
+}
+
+/*------ Form Controls ------*/
+
+/*-- Inputs --*/
+
+.custom-input{
+	border-radius: 0;
+	border-top: none;
+	border-left: none;
+	border-right: none;
+	border-bottom: solid 0.75px rgba(200, 200, 200, 0.55);
+}
+
+.custom-input:hover, .custom-input:focus, .custom-input:active{
+	border-radius: 0;
+	border-top: none;
+	border-left: none;
+	border-right: none;
+}
+
+.custom-input-icon{
+	margin: 2rem 0rem;
+}
+
+/*------ General Administration ------*/
+
+/*-- Navbar --*/
+
+.title-administration-desktop{
+	margin-left: 3.25rem;
+}
+
+/*-- Interaction --*/
+
+.container-interaction-administration{
+	height: calc(100% - 3.25rem);
+}
+
+.grid-information-administration {
+	display: grid;
+	grid-template-columns: 1fr;
+	grid-template-rows: 3.25rem auto 3.25rem;
+	height: 100%;
+	padding: 1rem;
+}
+
+.information-administration-title{
+	margin: auto 1rem;
+}
+
+.information-administration-clients{
+	margin: 1rem;
+}
+
+.grid-information-administration-employees {
+	display: grid;
+	grid-template-columns: 1fr;
+	grid-template-rows: 1fr auto;
+	height: 100%;
+	row-gap:  2rem;
+}
+
+.grid-table-employees{
+	display: grid;
+	grid-template-columns: 1fr;
+	grid-template-rows: 3.25rem auto;
+	height: 100%;
+	background-clip: content-box;
+}
+
+.table-employees-title{
+	display: flex;
+	align-items: center;
+	margin: auto 1rem;
+}
+
+.table-employees-content{
+	margin: 1rem;
+}
+
+.grid-employees-details{
+	display: grid;
+	grid-template-columns: 1fr;
+	grid-template-rows: 3.25rem auto;
+	height: 100%;
+	background-clip: content-box;
+}
+
+.employees-details-title{
+	display: flex;
+	align-items: center;
+	margin: auto 1rem;
+}
+
+.employees-details-form{
+	box-sizing: border-box !important;
+	margin: 1rem 0 !important;
+}
+
+.information-system-administration{
+	margin: auto 1rem;
+}
+
+.menu-left-administration{
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+/*Responsive Table*/
+table {
+  border-collapse: collapse;
+  margin:0;
+  padding:0;
+  width: 100%;
+}
+table tr {
+  /*border: 1px solid #ddd;*/
+  padding: 5px;
+}
+table th, table td {
+  padding: 10px;
+  /*text-align: center;*/
+}
+table th {
+  font-size: 14px;
+  letter-spacing: 1px;
+  /*text-transform: uppercase;*/
+}
+@media screen and (max-width: 600px) {
+  table {
+    border: 0;
+  }
+  table thead {
+    display: none;
+  }
+  table tr {
+    /*border-bottom: 2px solid #ddd;*/
+    display: block;
+    margin-bottom: 10px;
+  }
+  table td {
+    /*border-bottom: 1px dotted #ccc;*/
+    display: block;
+    font-size: 13px;
+    text-align: center;
+  }
+  table td:last-child {
+    border-bottom: 0;
+  }
+  table td:before {
+    content: attr(data-label);
+    float: left;
+    font-weight: bold;
+    text-transform: uppercase;
+  }
+}

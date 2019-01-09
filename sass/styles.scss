@@ -1,0 +1,80 @@
+@charset "utf-8";
+
+// Google Fonts
+@import url('https://fonts.googleapis.com/css?family=Nunito:400,700');
+
+// Bulma's global variables
+$family-sans-serif: "Nunito", sans-serif;
+
+$primary: #769AF8;
+$link: #769AF8;
+$black: #182233;
+$grey: #7F858E;
+$grey-lighter: #F9F9F9;
+
+$widescreen-enabled: false;
+$fullhd-enabled: false;
+
+// Bulma's component variables
+$body-background-color: $grey-lighter;
+
+	// Input Variables
+	$input-color: $black;
+	$input-shadow: none;
+	$input-border-color: transparent;
+	$input-background-color: transparent;
+	$input-border-color: transparent;
+	$input-hover-color: transparent;
+	$input-hover-border-color: rgba(200, 200, 200, 0.55);
+	$input-focus-color: transparent;
+	$input-focus-border-color: rgba(200, 200, 200, 0.55);
+	$input-focus-box-shadow-color: transparent;
+
+	// Navbar Variables
+	$navbar-box-shadow-size: 0px 0px 5px -2px;
+	$navbar-box-shadow-color: rgba(0,0,0,.20);
+	$navbar-item-color: $grey;
+
+// Bulma's imports.
+@import "../node_modules/bulma/sass/utilities/_all.sass";
+@import "../node_modules/bulma/sass/elements/_all.sass";
+@import "../node_modules/bulma/sass/base/_all.sass";
+@import "../node_modules/bulma/sass/components/_all.sass";
+@import "../node_modules/bulma/sass/grid/_all.sass";
+@import "../node_modules/bulma/sass/layout/_all.sass";
+
+// Responsivness
+
+	// General Dashboard
+		
+		// Interaction
+
+		.grid-interaction {
+			display: grid;
+			grid-template-rows: 100%;
+			height: 100%;
+			@include touch {
+		 		grid-template-columns: auto;
+		 	}
+			@include desktop {
+				grid-template-columns: 3.25rem auto;
+			 }
+		}
+
+
+	// General Administration
+		
+		// Interaction
+
+		.grid-interaction-administration {
+			display: grid;
+			grid-template-rows: 100%;
+			height: 100%;
+			@include touch {
+		 		grid-template-columns: auto;
+		 	}
+			@include desktop {
+				grid-template-columns: 3.25rem auto;
+			 }
+		}
+

@@ -1,0 +1,540 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <title>Dashboard</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script defer src="https://cdn.rawgit.com/eligrey/FileSaver.js/5ed507ef8aa53d8ecfea96d96bc7214cd2476fd2/FileSaver.min.js"></script>
+    <script defer src="https://use.fontawesome.com/releases/v5.3.1/js/all.js"></script>
+    <script defer src="./js/axios.min.js"></script>
+    <script defer src="./js/js-dashboard.js"></script>
+    <script defer src="./js/jspdf/jspdf.js"></script>
+    <script defer src="./js/js-reports.js"></script>
+    <link rel="stylesheet" href="./css/styles.css">
+    <link rel="stylesheet" href="./css/custom-styles.css">
+</head>
+
+<body>
+    <section class="hero is-hidden-desktop is-fullheight is-primary">
+        <div class="hero-body">
+            <div class="container">
+                <h1 class="title has-text-centered">
+        Sistema no apto para esta resolución
+      </h1>
+            </div>
+        </div>
+    </section>
+    <section class="hero container-general is-hidden-touch">
+        <nav class="navbar is-transparent has-background-white has-shadow">
+            <div class="navbar-brand">
+                <a class="navbar-item is-hidden-touch" href="">
+					<p class="title is-4 has-text-weight-light has-text-primary title-dashboard-desktop">Money Recovery</p>
+				</a>
+                <a class="navbar-item is-hidden-desktop" href="">
+					<p class="title is-4 has-text-weight-light has-text-primary is-hidden-desktop">Money Recovery</p>
+				</a>
+                <div class="navbar-burger burger" data-target="navbar-regions">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+            </div>
+            <div id="navbar-regions" class="navbar-menu">
+                <div class="navbar-end">
+                    <div class="navbar-item has-dropdown is-hoverable">
+                        <a class="navbar-link">
+							<p>Empleado: <span id="employe-id">000084</span></p>
+						</a>
+                        <div class="navbar-dropdown is-right">
+                            <a id="generate-report" class="navbar-item ">
+								<span>
+									<span class="icon has-text-info">
+										<i class="far fa-file-alt"></i>
+									</span>
+									<strong>Generar Reporte Diario</strong>
+									<br>
+									Reporte de acuerdos generados el día de hoy
+								</span>
+							</a>
+                            <a id="close-session" class="navbar-item">
+								<span>
+									<span class="icon has-text-danger">
+										<i class="fas fa-times"></i>
+									</span>
+									<strong>Cerrar Sesión</strong>
+									<br>
+									No olvides apagar el equipo de cómputo
+								</span>
+							</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </nav>
+        <section class="section is-paddingless container-interaction">
+            <div class="grid-interaction">
+                <div class="menu-left has-background-white is-hidden-touch">
+                    <a href="">
+						<span class="icon is-large has-text-primary">
+							<i class="fas fa-2x fa-th-large"></i>
+						</span>
+					</a>
+                </div>
+                <div class="grid-information">
+                    <div class="information-title">
+                        <p class="title is-4 has-text-weight-light has-text-black">Dashboard</p>
+                    </div>
+                    <div class="information-options">
+                        <nav class="level">
+                            <div class="level-left">
+                                <div class="level-item">
+                                    <div class="field has-addons">
+                                        <p class="control has-icons-right">
+                                            <input id="options-search-input" class="input custom-input has-text-grey options-search-input" type="text" placeholder="Búsqueda de Cliente">
+                                            <span id="options-search-icon" class="icon is-small is-right icon-search options-search-icon has-text-grey-light">
+												<i class="fas fa-search"></i>
+											</span>
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div id="level-right-options" class="level-right is-mobile">
+                                <div id="navbar-regions-dropdown-item" class="level-item navbar-item has-dropdown is-hoverable options-regions">
+                                    <a class="navbar-link">
+										<p>Filtrado de Región</p>
+									</a>
+                                    <div id="navbar-regions-dropdown" class="navbar-dropdown">
+                                    </div>
+                                </div>
+                                <p class="level-item has-text-grey options-pages">Página <span id="actual-page">1</span> de <span id="total-pages">24</span></p>
+                                <div class="level-item options-go-page">
+                                    <p class="level-item has-text-grey options-go-page-text">Visitar Página:</p>
+                                    <div class="field field-options-go-page-input">
+                                        <p class="control">
+                                            <input id="options-go-page-input" class="input custom-input options-go-page-input has-text-grey has-text-centered" type="text" placeholder="#">
+                                        </p>
+                                    </div>
+                                    <a id="go-to-page" class="level-item options-go-page-action">Ir</a>
+                                </div>
+                            </div>
+                        </nav>
+                    </div>
+                    <div class="information-clients">
+                        <div class="grid-information-clients">
+                            <div class="grid-table-clients has-background-white">
+                                <div class="table-clients-title">
+                                    <p class="title is-5 has-text-weight-light has-text-grey">Listado de Clientes</p>
+                                </div>
+                                <div id="table-clients-content" class="table-clients-content has-background-warnin">
+                                    <table id="clients-table" class="table is-fullwidth is-hoverable">
+                                        <thead>
+                                            <tr>
+                                                <th></th>
+                                                <th class="has-text-weight-light has-text-grey">No. de Cliente</th>
+                                                <th class="has-text-weight-light has-text-grey">Nombre del Cliente</th>
+                                                <th class="has-text-weight-light has-text-grey has-text-centered">Acuerdo de Pago</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="tbodyClients">
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                            <div id="start-container" class="start-container has-background-white">
+                                <div class="columns is-multiline">
+                                    <div class="column is-12 has-text-centered">
+                                        <span class="icon start-container-icon has-text-primary">
+											<i class="far fa-user"></i>
+										</span>
+                                    </div>
+                                    <div class="start-container-icon-column column is-12 has-text-centered">
+                                        <p class="start-container-text title is-5 has-text-weight-light has-text-primary">Ningún cliente seleccionado</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div id="grid-client-details" class="grid-client-details has-background-white is-hidden">
+                                <div class="client-details-title">
+                                    <p class="title is-5 has-text-weight-light has-text-grey">Detalle del cliente</p>
+                                </div>
+                                <div class="client-details-tabs tabs is-boxed is-centered is-fullwidth">
+                                    <ul>
+                                        <li id="client-details-tabs-general-information-li" class="is-active">
+                                            <a id="client-details-tabs-general-information" class="has-text-weight-light">
+												<span class="icon is-small">
+													<i class="fas fa-info"></i>
+												</span>
+												<span>Información General</span>
+											</a>
+                                        </li>
+                                        <li id="client-details-tabs-contact-information-li">
+                                            <a id="client-details-tabs-contact-information" class="has-text-weight-light has-text-grey">
+												<span class="icon is-small">
+													<i class="fas fa-phone"></i>
+												</span>
+												<span>Información de Contacto</span>
+											</a>
+                                        </li>
+                                        <li id="client-details-tabs-agreements-li">
+                                            <a id="client-details-tabs-agreements" class="has-text-weight-light has-text-grey">
+												<span class="icon is-small">
+													<i class="fas fa-file-contract"></i>
+												</span>
+												<span>Acuerdos Generados</span>
+											</a>
+                                        </li>
+                                    </ul>
+                                </div>
+                                <div id="client-details-information-container" class="client-details-information-container">
+                                    <div id="" class="client-details-information">
+                                        <div class="card is-fullwidth">
+                                            <header class="card-header">
+                                                <p class="card-header-title has-text-weight-light">Información Personal</p>
+                                                <a class="card-header-icon card-toggle">
+													<i class="fa fa-angle-down"></i>
+												</a>
+                                            </header>
+                                            <div class="card-content">
+                                                <div class="content">
+                                                    <div class="columns">
+                                                        <div class="column is-4">
+                                                            <p id="client-details-information-id" class="content-field-info"></p>
+                                                            <p class="content-field-name has-text-grey">No. de Cliente</p>
+                                                        </div>
+                                                        <div class="column is-4">
+                                                            <p id="client-detail-information-region" class="content-field-info"></p>
+                                                            <p class="content-field-name has-text-grey">Región</p>
+                                                        </div>
+                                                    </div>
+                                                    <div class="columns">
+                                                        <div class="column is-4">
+                                                            <p id="client-detail-information-rfc" class="content-field-info"></p>
+                                                            <p class="content-field-name has-text-grey">RFC</p>
+                                                        </div>
+                                                        <div class="column is-4">
+                                                            <p id="client-detail-information-name" class="content-field-info"></p>
+                                                            <p class="content-field-name has-text-grey">Nombre del Cliente</p>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="card is-fullwidth">
+                                            <header class="card-header">
+                                                <p class="card-header-title has-text-weight-light">Información Deuda</p>
+                                                <a class="card-header-icon card-toggle">
+													<i class="fa fa-angle-down"></i>
+												</a>
+                                            </header>
+                                            <div class="card-content">
+                                                <div class="content">
+                                                    <div class="columns">
+                                                        <div class="column is-4">
+                                                            <p id="client-detail-information-balance" class="content-field-info"></p>
+                                                            <p class="content-field-name has-text-grey">Saldo</p>
+                                                        </div>
+                                                    </div>
+                                                    <div class="columns">
+                                                        <div class="column is-4">
+                                                            <p id="client-detail-information-interest" class="content-field-info"></p>
+                                                            <p class="content-field-name has-text-grey">Intereses Moratorios</p>
+                                                        </div>
+                                                        <div class="column is-4">
+                                                            <p id="client-detail-days-delay" class="content-field-info"></p>
+                                                            <p class="content-field-name has-text-grey">Días de Atraso</p>
+                                                        </div>
+                                                        <div class="column is-4">
+                                                            <p id="client-detail-information-last-payment" class="content-field-info"></p>
+                                                            <p class="content-field-name has-text-grey">Fecha de Último Pago</p>
+                                                        </div>
+                                                    </div>
+                                                    <div class="columns">
+                                                        <div class="column is-4">
+                                                            <p id="client-detail-total-balance" class="content-field-info"></p>
+                                                            <p class="content-field-name has-text-grey">Saldo Total</p>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="card is-fullwidth">
+                                            <header class="card-header">
+                                                <p class="card-header-title has-text-weight-light">Contacto</p>
+                                                <a class="card-header-icon card-toggle">
+													<i class="fa fa-angle-down"></i>
+												</a>
+                                            </header>
+                                            <div class="card-content">
+                                                <div class="content">
+                                                    <div class="columns">
+                                                        <div class="column is-4">
+                                                            <p id="client-detail-last-contact" class="content-field-info"></p>
+                                                            <p class="content-field-name has-text-grey">Última Fecha de Contacto</p>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div id="client-details-contact-container" class="client-details-contact-container is-hidden">
+                                    <div class="client-details-contact">
+                                        <div class="card is-fullwidth">
+                                            <header class="card-header">
+                                                <p class="card-header-title has-text-weight-light">Teléfonos de Contacto Activos</p>
+                                                <a class="card-header-icon card-toggle">
+													<i class="fa fa-angle-down"></i>
+												</a>
+                                            </header>
+                                            <div class="card-content">
+                                                <div id="client-details-contact-container-active" class="content">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div id="client-details-contact-box-new-phone-form" class="box client-details-contact-box-new-phone is-shadowless is-hidden">
+                                            <article class="media">
+                                                <div class="media-content">
+                                                    <div class="content">
+                                                        <div class="columns">
+                                                            <div class="column is-3">
+                                                                <div class="field has-addons">
+                                                                    <p class="control is-expanded has-icons-left">
+                                                                        <input id="client-contact-information-phone" class="input custom-input has-text-grey options-search-input" type="text" placeholder="Número Telefónico">
+                                                                        <span id="options-search-icon" class="icon is-small is-left icon-search options-search-icon has-text-grey-light">
+																			<i class="fas fa-phone"></i>
+																		</span>
+                                                                    </p>
+                                                                </div>
+                                                            </div>
+                                                            <div class="column is-9">
+                                                                <div class="field has-addons">
+                                                                    <p class="control is-expanded has-icons-left">
+                                                                        <input id="client-contact-information-description" class="input custom-input has-text-grey options-search-input" type="text" placeholder="¿Cómo se obtuvo este número?">
+                                                                        <span class="icon is-small is-left icon-search options-search-icon has-text-grey-light">
+																			<i class="fas fa-info-circle"></i>
+																		</span>
+                                                                    </p>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </article>
+                                        </div>
+                                        <div id="client-details-contact-box-new-phone-button" class="box client-details-contact-box-add-phone is-shadowless">
+                                            <article class="media">
+                                                <div class="media-content">
+                                                    <div class="content">
+                                                        <p id="client-details-contact-box-new-phone-button-p" class="content-field-name has-text-primary has-text-centered">Agregar Número Telefónico</p>
+                                                    </div>
+                                                </div>
+                                            </article>
+                                        </div>
+                                        <div class="card is-fullwidth">
+                                            <header class="card-header">
+                                                <p class="card-header-title has-text-weight-light">Teléfonos de Contacto Inactivos</p>
+                                                <a class="card-header-icon card-toggle">
+													<i class="fa fa-angle-down"></i>
+												</a>
+                                            </header>
+                                            <div class="card-content is-hidden">
+                                                <div id="client-details-contact-container-inactive" class="content">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div id="client-details-agreements-container" class="client-details-agreements-container is-hidden">
+                                    <div class="client-details-agreements">
+                                        <div class="card is-fullwidth">
+                                            <header class="card-header">
+                                                <p class="card-header-title has-text-weight-light">Acuerdos de Pago</p>
+                                                <a class="card-header-icon card-toggle">
+													<i class="fa fa-angle-down"></i>
+												</a>
+                                            </header>
+                                            <div class="card-content">
+                                                <div id="client-details-agreements-content" class="content">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="card is-fullwidth">
+                                            <header class="card-header">
+                                                <p class="card-header-title has-text-weight-light">Comentarios de Sesiones</p>
+                                                <a class="card-header-icon card-toggle">
+													<i class="fa fa-angle-down"></i>
+												</a>
+                                            </header>
+                                            <div class="card-content is-hidden">
+                                                <div id="client-details-comments-content" class="content">
+                                                    <div class="columns is-multiline">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div id="call-validation-container" class="call-validation-container has-background-white is-hidden">
+                                <div class="call-validation columns is-multiline">
+                                    <div class="column is-12 has-text-centered">
+                                        <span class="icon call-validation-icon has-text-primary">
+											<i class="fas fa-phone"></i>
+										</span>
+                                    </div>
+                                    <div class="column is-12 has-text-centered">
+                                        <p class="title is-5 has-text-weight-light has-text-primary">¿Se logró contactar con el usuario?</p>
+                                    </div>
+                                    <div class="column is-12 has-text-centered">
+                                        <a id="call-validation-located" class="button is-primary custom-button">Si, continuar con sesión</a>
+                                    </div>
+                                    <div class="column is-12 has-text-centered">
+                                        <a id="call-validation-not-located" class="button is-primary custom-button">No, registrar intento de llamada</a>
+                                    </div>
+                                    <div class="column is-12 has-text-centered has-text-primary">
+                                        <a id="call-validation-cancel">Cancelar Llamada</a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div id="grid-session-call" class="grid-session-call has-background-white is-hidden">
+                                <div class="grid-session-call-title">
+                                    <p class="title is-5 has-text-weight-light has-text-grey">Sesión de Llamada</p>
+                                </div>
+                                <div class="grid-session-information-container">
+                                    <div class="grid-session-information">
+                                        <div class="card is-fullwidth">
+                                            <header class="card-header">
+                                                <p class="card-header-title has-text-weight-light">Información Deuda</p>
+                                                <a class="card-header-icon card-toggle">
+													<i class="fa fa-angle-down"></i>
+												</a>
+                                            </header>
+                                            <div class="card-content">
+                                                <div class="content">
+                                                    <div class="columns">
+                                                        <div class="column is-4">
+                                                            <p id="session-call-balance" class="content-field-info"></p>
+                                                            <p class="content-field-name has-text-grey">Saldo</p>
+                                                        </div>
+                                                    </div>
+                                                    <div class="columns">
+                                                        <div class="column is-4">
+                                                            <p id="session-call-interests" class="content-field-info"></p>
+                                                            <p class="content-field-name has-text-grey">Intereses Moratorios</p>
+                                                        </div>
+                                                        <div class="column is-4">
+                                                            <p id="session-call-days-delay" class="content-field-info"></p>
+                                                            <p class="content-field-name has-text-grey">Días de Atraso</p>
+                                                        </div>
+                                                        <div class="column is-4">
+                                                            <p id="session-call-last-payment" class="content-field-info"></p>
+                                                            <p class="content-field-name has-text-grey">Fecha de Último Pago</p>
+                                                        </div>
+                                                    </div>
+                                                    <div class="columns">
+                                                        <div class="column is-4">
+                                                            <p id="session-call-total-balance" class="content-field-info"></p>
+                                                            <p class="content-field-name has-text-grey">Saldo Total</p>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="card is-fullwidth">
+                                            <header class="card-header">
+                                                <p class="card-header-title has-text-weight-light">Propuesta de Pago</p>
+                                                <a class="card-header-icon card-toggle">
+													<i class="fa fa-angle-down"></i>
+												</a>
+                                            </header>
+                                            <div class="card-content is-hidden">
+                                                <div class="content">
+                                                    <div class="columns">
+                                                        <div class="column is-4">
+                                                            <div class="buttons has-addons grid-session-payment-term">
+                                                                <span id="payment-proposal-minus" class="button grid-session-payment-term-button"><span class="icon has-text-primary grid-session-payment-term-icon">
+																		<i class="fas fa-minus"></i>
+																	</span></span>
+                                                                <span id="actual-porpouse-payments" class="button grid-session-payment-term-button" value="0">Sin propuesta de pago</span>
+                                                                <span id="payment-proposal-plus" class="button grid-session-payment-term-button"><span class="icon has-text-primary grid-session-payment-term-icon">
+																		<i class="fas fa-plus"></i>
+																	</span></span>
+                                                            </div>
+                                                            <p class="content-field-name has-text-grey">Plazo a Meses</p>
+                                                        </div>
+                                                    </div>
+                                                    <div class="columns">
+                                                        <div class="column is-4">
+                                                            <p class="content-field-name has-text-grey">Desglose de Pagos</p>
+                                                        </div>
+                                                    </div>
+                                                    <div id="porpouse-payments-columns" class="columns is-multiline">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div id="branches-card" class="card is-fullwidth is-hidden">
+                                            <header class="card-header">
+                                                <p class="card-header-title has-text-weight-light">Sucursales Bancarias</p>
+                                                <a class="card-header-icon card-toggle">
+													<i class="fa fa-angle-down"></i>
+												</a>
+                                            </header>
+                                            <div class="card-content is-hidden">
+                                                <div class="content">
+                                                    <div id="branches-columns" class="columns is-multiline">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="card is-fullwidth">
+                                            <header class="card-header">
+                                                <p class="card-header-title has-text-weight-light">Información de Sesión</p>
+                                                <a class="card-header-icon card-toggle">
+													<i class="fa fa-angle-down"></i>
+												</a>
+                                            </header>
+                                            <div class="card-content is-hidden">
+                                                <div class="content">
+                                                    <div class="columns is-multiline">
+                                                        <div class="column is-4">
+                                                            <div class="field has-addons">
+                                                                <p class="control is-expanded has-icons-left">
+                                                                    <input id="payment-proposal-mail" class="input custom-input has-text-grey options-search-input" type="text" placeholder="Correo Electrónico">
+                                                                    <span id="" class="icon is-small is-left icon-search options-search-icon has-text-grey-light">
+																		<i class="far fa-envelope"></i>
+																	</span>
+                                                                </p>
+                                                            </div>
+                                                        </div>
+                                                        <div class="column is-12">
+                                                            <textarea id="payment-proposal-comment" class="textarea grid-session-comment" placeholder="Comentarios de la sesión"></textarea>
+                                                        </div>
+                                                        <div class="column is-12">
+                                                            <div class="field is-grouped is-grouped-right">
+                                                                <p class="control">
+                                                                    <a id="finish-call-session-button" class="button is-primary">
+																		Finalizar Sesión
+																	</a>
+                                                                </p>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="information-system has-text-centered">
+                        <p>Universidad Autónoma de Querétaro 2018 - <a href="https://www.uaq.mx/informatica" target="_blank">Facultad de Informática</a></p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </section>
+</body>
+
+</html>
